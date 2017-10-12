@@ -111,7 +111,7 @@ traits:
               {
                 "rt": ["oic.wk.atomicmeasurement"],
                 "if": ["oic.if.ll", "oic.if.b", "oic.if.baseline"]
-                "rts": [ "oic.r.temperature", "oic.r.body.location", "oic.r.time" ],
+                "rts": [ "oic.r.temperature", "oic.r.body.location", "oic.r.clock" ],
                 "links": [
                   {
                     "href": "temperature",
@@ -125,7 +125,7 @@ traits:
                   },
                   {
                     "href": "timestamp,
-                    "rt":   ["oic.r.time"],
+                    "rt":   ["oic.r.clock"],
                     "if":   ["oic.if.s", "oic.if.baseline"],
                   }
                 ]
@@ -179,14 +179,14 @@ traits:
                     "href": "bodylocation",
                     "rep":
                       {
-                        "bodylocation": "ear"
+                        "bloc": "finger"
                       }
                   }
                   {
                     "href": "timestamp",
                     "rep":
                       {
-                        "time": "2017-10-12T00:28:51+00:00"
+                        "datetime": "2007-04-05T14:30+09:00"
                       }
                   }
                 ]
