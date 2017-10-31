@@ -1,6 +1,6 @@
 #%RAML 0.8
 title: OICTemperature
-version: v1.1.0-20160519
+version: vx.x.x-20171031
 documentation:
   - title: © 2016 Open Connectivity Foundation, Inc. All rights reserved.
     content: |
@@ -26,6 +26,10 @@ schemas:
   - Temperature-r: !include schemas/oic.r.temperature.r.json
 
 traits:
+  - interface-all:
+    queryParameters:
+      if:
+        enum: ["oic.if.a", "oic.if.s", "oic.if.r", "oic.if.baseline"]
   - interface-a:
       queryParameters:
         if:
@@ -43,7 +47,7 @@ traits:
         if:
           enum: ["oic.if.baseline"]
 
-/TemperatureResBaselineURI:
+/TemperatureURI?if=oic.if.baseline:
   description: |
     Baseline properties consist of the standard OCF base resource properties
 
@@ -100,7 +104,7 @@ traits:
                 "if":           ["oic.if.a", "oic.if.s", "oic.if.r", "oic.if.baseline"]
               }
 
-/TemperatureResSensorURI:
+/TemperatureURI?if=oic.if.s:
   description: |
     This resource displays a sensed Temperature value.
 
@@ -140,7 +144,7 @@ traits:
                 "range":        [0.0,100.0]
               }
 
-/TemperatureResActuatorURI:
+/TemperatureURI?if=oic.if.a:
   description: |
     This resource describes an actuated Temperature value.
     The temperature property displays and accepts the current value.
@@ -218,7 +222,7 @@ traits:
                 "range":        [0.0,100.0]
               }
 
-/TemperatureResReadableURI:
+/TemperatureURI?if=oic.if.r:
   description: |
     This resource describes a sensed or actuated Temperature value.
     THe read-only interface includes the units and range properties
@@ -239,3 +243,19 @@ traits:
                 "units":        "C",
                 "range":        [0.0,100.0]
               }
+
+/TemperatureURI:
+  description: |
+    This is for delete operations that do not require an interfece definition
+
+  displayName: Temperature
+  is: [ interface-all ] # any interface or no interface is OK for delete
+
+  delete:
+    description: |
+      Removes the instance of the resource from the system
+    responses:
+      200:
+      204:
+      404:
+      405:

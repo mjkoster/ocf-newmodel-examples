@@ -60,7 +60,6 @@ documentation:
 schemas:
   - baseline: !include schemas/oic.collection-schema.json
   - batch-retrieve: !include schemas/oic.collection.batch-retrieve-schema.json
-  - batch-update: !include schemas/oic.collection.batch-update-schema.json
   - links: !include schemas/oic.collection.linkslist-schema.json
   - diag-payload: !include schemas/oic.diag-payload-schema.json
 
@@ -68,8 +67,7 @@ traits:
   - interface-all:
       queryParameters:
         if:
-          enum: ["oic.if.b", "oic.if.ll", "oic.if.baseline", oic.if.s, oic.if.a,
-          oic.if.r, oic.if.rw]
+          enum: ["oic.if.b", "oic.if.ll", "oic.if.baseline"]
 
   - interface-baseline:
       queryParameters:
@@ -152,13 +150,7 @@ traits:
       resources pointed to by the links
 
       oic.if.b, by default, exposes the default interface of the items in the
-      collection. The interface used to access items in Atomic Measurement
-      may be over-ridden by adding additional interface query parameters along
-      with oic.if.b in the URI.
-
-      For example, if a query is ?if=oic.if.b&if=oic.if.baseline, then the
-      representations of the items returned in the batch will be from the item's
-      baseline interface.
+      collection. 
 
       This ensures that all accesses to the items in the collection are atomic.
 
