@@ -1,0 +1,57 @@
+// rule resource
+
+// links property
+[
+  {
+    "anchor": "motion",
+    "rel": "inputdata",
+    "href": "ocf://<uuid>/sensors/motion",
+    "rt": "oic.r.sensor.motion",
+    "if": "oic.if.s"
+  },
+  {
+    "anchor": "sound",
+    "rel": "inputdata",
+    "href": "ocf://<uuid>/sensors/sound",
+    "rt": "oic.r.sensor.sound",
+    "if": "oic.if.s"
+  },
+  {
+    "anchor": "scenevalue",
+    "rel": "outputdata",
+    "href": "ocf://<uuid>/scenes",
+    "rt": "oic.r.scenecollection",
+    "if": "oic.if.a"
+  }
+]
+
+// rule property
+{
+  "anyOf": [
+    {
+      "input": "motion.value",
+      "op": "eq",
+      "rvalue": "true"
+    },
+    {
+      "input": "sound.value",
+      "op": "eq",
+      "rvalue": "true"
+    }
+  ]
+}
+
+// motion resource
+{
+  "value": false
+}
+
+// sound
+{
+  "value": false
+}
+
+//scenevalue
+{
+  "scenevalue": "presencedetected"
+}
