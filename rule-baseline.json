@@ -1,0 +1,84 @@
+// the rule collection with links and output payload configured
+// there are 4 local resources, 3 inputs and 1 output;
+// temperature, set temperature, a binary switch,
+// and a scene value to be transmitted when the rule triggers
+// there are 3 links to external resources which are bound to the local resources,
+// 2 inputs and 1 output. binding uses the IETF CORE Dynlink draft vocabulary
+// the input that has no binding link is expected to be set by using UPDATE
+{
+  "rt": ["oic.r.rule"],
+  "if": ["oic.if.rw", "oic.if.baseline", "oic.if.ll", "oic.if.b", "oic.if.linkupdate", "oic.if.batchcreate" ],
+  "rts": ["oic.r.temperature", "oic.r.switch.binary", "oic.r.scenevalue" ],
+  "rule": "(binaryswitch:value == true) and (temperature:temperature >= set-temp:temperature)",
+  "links": [
+    {
+      "rel": ["self", "item"],
+      "if": ["oic.if.rw"]
+    },
+    {
+      "href": "binaryswitch",
+      "rel": ["item", "ruleinput"],
+      "rt": "oic.r.switch.binary",
+      "if": ["oic.if.a", "oic.if.baseline" ]
+    },
+    {
+      "href": "temperature",
+      "rel": ["item", "ruleinput"],
+      "rt": "oic.r.temperature",
+      "if": ["oic.if.a", "oic.if.baseline" ]
+    },
+    {
+      "href": "set-temperature",
+      "rel": ["item", "ruleinput"],
+      "rt": "oic.r.temperature",
+      "if": ["oic.if.a", "oic.if.baseline" ]
+    },
+    {
+      "href": "scenevalue",
+      "rel": ["item", "ruleaction"],
+      "rt": "oic.r.scenevalue",
+      "if": ["oic.if.rw", "oic.if.baseline" ]
+    },
+    {
+      "href": "ocf://deviceID/binaryswitchhref",
+      "rel": ["boundto"],
+      "bind": "obs",
+      "anchor": "binaryswitch",
+      "if": ["oic.if.s"]
+    },
+    {
+      "href": "ocf://deviceID/temperaturehref",
+      "rel": ["boundto"],
+      "bind": "obs",
+      "anchor": "temperature",
+      "if": ["oic.if.s"]
+    },
+    {
+      "href": "scenevalue",
+      "rel": ["boundto"],
+      "bind": "push",
+      "anchor": "ocf://deviceID/scenecollectionhref",
+      "if": ["oic.if.a"]
+    }
+  ]
+}
+
+// the scenevalue resource
+{
+  "lastscene": "heat-off"
+}
+
+// the temperature resource
+{
+  "temperature": 23
+}
+
+// the set-temperature resource
+{
+  "temperature": 30
+}
+
+// the binaryswitch resource
+{
+  "value": false
+}

@@ -4,21 +4,21 @@
 [
   {
     "anchor": "motion",
-    "rel": "inputdata",
+    "rel": "ruleinput",
     "href": "ocf://<uuid>/sensors/motion",
     "rt": "oic.r.sensor.motion",
     "if": "oic.if.s"
   },
   {
     "anchor": "sound",
-    "rel": "inputdata",
+    "rel": "ruleinput",
     "href": "ocf://<uuid>/sensors/sound",
     "rt": "oic.r.sensor.sound",
     "if": "oic.if.s"
   },
   {
     "anchor": "scenevalue",
-    "rel": "outputdata",
+    "rel": "ruleoutput",
     "href": "ocf://<uuid>/scenes",
     "rt": "oic.r.scenecollection",
     "if": "oic.if.a"
@@ -53,5 +53,5 @@
 
 //scenevalue
 {
-  "scenevalue": "presencedetected"
+  "lastscene": "presencedetected"
 }
