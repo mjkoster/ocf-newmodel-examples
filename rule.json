@@ -1,57 +1,78 @@
 // rule resource
 
-// links property
+// oic.if.ll
 [
   {
-    "anchor": "motion",
-    "rel": "ruleinput",
-    "href": "ocf://<uuid>/sensors/motion",
-    "rt": "oic.r.sensor.motion",
-    "if": "oic.if.s"
+    "rel": ["self", "item"]
   },
   {
-    "anchor": "sound",
-    "rel": "ruleinput",
-    "href": "ocf://<uuid>/sensors/sound",
-    "rt": "oic.r.sensor.sound",
-    "if": "oic.if.s"
+    "href": "binaryswitch",
+    "rel": ["item", "ruleinput"],
+    "rt": "oic.r.switch.binary",
+    "if": ["oic.if.a", "oic.if.baseline" ]
   },
   {
-    "anchor": "scenevalue",
-    "rel": "ruleoutput",
-    "href": "ocf://<uuid>/scenes",
-    "rt": "oic.r.scenecollection",
-    "if": "oic.if.a"
+    "href": "temperature",
+    "rel": ["item", "ruleinput"],
+    "rt": "oic.r.temperature",
+    "if": ["oic.if.a", "oic.if.baseline" ]
+  },
+  {
+    "href": "set-temperature",
+    "rel": ["item", "ruleinput"],
+    "rt": "oic.r.temperature",
+    "if": ["oic.if.a", "oic.if.baseline" ]
+  },
+  {
+    "href": "scenevalue",
+    "rel": ["item", "ruleaction"],
+    "rt": "oic.r.scenevalue",
+    "if": ["oic.if.rw", "oic.if.baseline" ]
+  },
+  {
+    "href": "ocf://deviceID/binaryswitchhref",
+    "rel": ["boundto"],
+    "bind": "obs",
+    "anchor": "binaryswitch",
+    "if": ["oic.if.s"]
+  },
+  {
+    "href": "ocf://deviceID/temperaturehref",
+    "rel": ["boundto"],
+    "bind": "obs",
+    "anchor": "temperature",
+    "if": ["oic.if.s"]
+  },
+  {
+    "href": "scenevalue",
+    "rel": ["boundto"],
+    "bind": "push",
+    "anchor": "ocf://deviceID/scenecollectionhref",
+    "if": ["oic.if.a"]
   }
 ]
 
-// rule property
+// oic.if.rw from the rule resource
 {
-  "anyOf": [
-    {
-      "input": "motion.value",
-      "op": "eq",
-      "rvalue": "true"
-    },
-    {
-      "input": "sound.value",
-      "op": "eq",
-      "rvalue": "true"
-    }
-  ]
+  "rule": "(binaryswitch:value == true) and (temperature:temperature >= set-temp:temperature)"
 }
 
-// motion resource
+// the scenevalue resource
+{
+  "lastscene": "heat-off"
+}
+
+// the temperature resource
+{
+  "temperature": 23
+}
+
+// the set-temperature resource
+{
+  "temperature": 30
+}
+
+// the binaryswitch resource
 {
   "value": false
-}
-
-// sound
-{
-  "value": false
-}
-
-//scenevalue
-{
-  "lastscene": "presencedetected"
 }

@@ -7,13 +7,12 @@
 // the input that has no binding link is expected to be set by using UPDATE
 {
   "rt": ["oic.r.rule"],
-  "if": ["oic.if.rw", "oic.if.baseline", "oic.if.ll", "oic.if.b", "oic.if.linkupdate", "oic.if.batchcreate" ],
+  "if": ["oic.if.rw", "oic.if.baseline", "oic.if.ll", "oic.if.b", "oic.if.linkupdate", "oic.if.create", "oic.if.delete" ],
   "rts": ["oic.r.temperature", "oic.r.switch.binary", "oic.r.scenevalue" ],
   "rule": "(binaryswitch:value == true) and (temperature:temperature >= set-temp:temperature)",
   "links": [
     {
-      "rel": ["self", "item"],
-      "if": ["oic.if.rw"]
+      "rel": ["self", "item"]
     },
     {
       "href": "binaryswitch",

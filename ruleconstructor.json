@@ -1,0 +1,109 @@
+
+// Create the rule instance resource under the rule colleciton resource
+
+// POST /rules/?if=oic.if.create
+// payload:
+[
+  {
+    "href": "testrule",
+    "rt": ["oic.r.rule"],
+    "if": ["oic.if.rw", "oic.if.baseline", "oic.if.ll", "oic.if.b", "oic.if.linkupdate", "oic.if.create", "oic.if.delete" ],
+    "rep":
+      {
+        "rts": ["oic.r.temperature", "oic.r.switch.binary", "oic.r.scenevalue" ],
+        "rule": "(binaryswitch:value == false) or (temperature:temperature >= set-temp:temperature)",
+      }
+  }
+]
+
+// Response:
+// 2.01 Created
+
+
+// Create the local items in the Collection for rule inputs and outputs
+
+// POST /rules/testrule/?if=oic.if.create
+// payload:
+[
+  {
+    "href": "binaryswitch",
+    "rel": ["item", "ruleinput"],
+    "rt": "oic.r.switch.binary",
+    "if": ["oic.if.a", "oic.if.baseline" ],
+    "rep": {
+      "value": false
+    }
+  },
+  {
+    "href": "temperature",
+    "rel": ["item", "ruleinput"],
+    "rt": "oic.r.temperature",
+    "if": ["oic.if.a", "oic.if.baseline" ],
+    "rep": {
+      "temperature": 0
+    }
+  },
+  {
+    "href": "set-temperature",
+    "rel": ["item", "ruleinput"],
+    "rt": "oic.r.temperature",
+    "if": ["oic.if.a", "oic.if.baseline" ],
+    "rep": {
+      "temperature": 25
+    }
+  },
+  {
+    "href": "scenevalue",
+    "rel": ["item", "ruleaction"],
+    "rt": "oic.r.scenevalue",
+    "if": ["oic.if.rw", "oic.if.baseline" ],
+    "rep": {
+      "lastscene": "heat-off"
+    }
+  }
+]
+
+// Response:
+// 2.01 Created
+
+
+// Create the links that point to the external rule input and outputs
+// POST /rules/testrule/?if=oic.if.create
+// payload:
+[
+  {
+    "href": "ocf://deviceID/binaryswitchhref",
+    "rel": ["boundto"],
+    "bind": "obs",
+    "anchor": "binaryswitch",
+    "if": ["oic.if.s"]
+  },
+  {
+    "href": "ocf://deviceID/temperaturehref",
+    "rel": ["boundto"],
+    "bind": "obs",
+    "anchor": "temperature",
+    "if": ["oic.if.s"]
+  },
+  {
+    "href": "scenevalue",
+    "rel": ["boundto"],
+    "bind": "push",
+    "anchor": "ocf://deviceID/scenecollectionhref",
+    "if": ["oic.if.a"]
+  }
+]
+
+// Response:
+// 2.01 Created
+
+// Change the set-point of the thermostat
+
+// POST /rules/testrule/set-temperature?if=oic.if.a
+// payload:
+{
+  "temperature": 26
+}
+
+// response
+// 2.04 Changed
